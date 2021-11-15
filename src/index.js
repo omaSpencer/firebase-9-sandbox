@@ -27,7 +27,7 @@ const db = getFirestore();
 const colRef = collection(db, 'books');
 
 // Queries
-const q = query(colRef, where('author', '==', 'J.K. Rowland'));
+const q = query(colRef, where('author', '==', 'J.K Rowling'));
 
 // Real time collection data
 onSnapshot(q, (snapshot) => {
