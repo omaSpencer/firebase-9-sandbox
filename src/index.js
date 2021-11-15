@@ -3,10 +3,11 @@ import {
 	getFirestore,
 	collection,
 	onSnapshot,
-	getDocs,
 	addDoc,
 	deleteDoc,
 	doc,
+	query,
+	where,
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -24,8 +25,12 @@ initializeApp(firebaseConfig);
 const db = getFirestore();
 // Collection Ref
 const colRef = collection(db, 'books');
+
+// Queries
+const q = query(colRef, where('author', '==', 'J.K. Rowland'));
+
 // Real time collection data
-onSnapshot(colRef, (snapshot) => {
+onSnapshot(q, (snapshot) => {
 	let books = [];
 
 	snapshot.docs.forEach((doc) => {
@@ -34,6 +39,8 @@ onSnapshot(colRef, (snapshot) => {
 			id: doc.id,
 		});
 	});
+
+	console.log(books);
 });
 // Adding documents
 const addBookForm = document.querySelector('.add');
