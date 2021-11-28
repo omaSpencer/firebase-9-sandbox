@@ -45,7 +45,7 @@ const q = query(colRef, orderBy('createdAt'));
 // const q = query(colRef, where('author', '==', 'J.K. Rowling'), orderBy('createdAt'));
 
 // Real time collection data
-onSnapshot(q, (snapshot) => {
+const unsubCol = onSnapshot(q, (snapshot) => {
 	let books = [];
 
 	snapshot.docs.forEach((doc) => {
@@ -96,7 +96,7 @@ getDoc(docRef).then((doc) => {
 	console.log(doc.data(), doc.id);
 });
 
-onSnapshot(docRef, (doc) => {
+const unsubDoc = onSnapshot(docRef, (doc) => {
 	console.log(doc.data(), doc.id);
 });
 // Updating a document
@@ -157,6 +157,15 @@ loginForm.addEventListener('submit', (e) => {
 		});
 });
 // Subscribing to auth changes
-onAuthStateChanged(auth, (user) => {
+const unsubAuth = onAuthStateChanged(auth, (user) => {
 	console.log('User status changes:', user);
+});
+// Unsubscribe from db/auth changes
+const unsubscribeBtn = document.querySelector('.unsub');
+unsubscribeBtn.addEventListener('click', () => {
+	console.log('Unsubscribing');
+
+	unsubCol();
+	unsubDoc();
+	unsubAuth();
 });
